@@ -1,16 +1,69 @@
-== Welcome to Contacts
+== Welcome to Contacts Gem
 
 Contacts is a universal interface to grab contact list information from various providers including Hotmail, AOL, Gmail, Plaxo and Yahoo.
 
 == Download
 
-* gem install contacts
-* http://github.com/cardmagic/contacts
-* git clone git://github.com/cardmagic/contacts.git
+* https://github.com/abhilashak/contacts
+* git clone git@github.com:abhilashak/contacts.git
+
+== Usage
+
+In Gemfile
+
+gem "contacts", :git => "git://github.com/abhilashak/contacts.git"
+gem "gdata", :git => "git://github.com/dwaite/gdata.git"
 
 == Background
 
-For a long time, the only way to get a list of contacts from your free online email accounts was with proprietary PHP scripts that would cost you $50. The act of grabbing that list is a simple matter of screen scrapping and this library gives you all the functionality you need. Thanks to the generosity of the highly popular Rails website MOG (http://mog.com) for allowing this library to be released open-source to the world. It is easy to extend this library to add new free email providers, so please contact the author if you would like to help.
+This gem is based on cardmagic contacts. https://github.com/cardmagic/contacts, and I patched some files in this gem and replaced the hotmail.rb file with deneuxa's contacts (https://github.com/deneuxa/contacts) to work the Hotmail importing.
+
+While I am using the gem contacts for importing the contacts from gmail, yahoo and hotmail, I encountered Three-Four Problems (Major One: Hotmail importing is not working), the first error I got is the following,
+
+/home/prescience-toshiba/.rvm/gems/ruby-1.9.2-p290@rails31rc/gems/activesupport-3.1.3/lib/active_support/dependencies.rb:240:in `require': no such file to load -- hpricot (LoadError)
+
+so I patched in the file /home/prescience-toshiba/.rvm/gems/ruby-1.9.2-p290@rails31rc/gems/contacts-1.2.4/lib/contacts/aol.rb
+
+and replaced the line 
+
+require 'hpricot'
+
+with
+
+require 'hpricot' if RUBY_VERSION < '1.9'
+
+this is valid for only the ruby version less than 1.9
+
+
+then I changed
+
+the file  /home/prescience-toshiba/.rvm/gems/ruby-1.9.2-p290@rails31rc/gems/gdata-1.1.1/lib/gdata.rb
+
+replaced this line 
+
+require 'jcode' 
+
+with
+
+require 'jcode' if RUBY_VERSION < '1.9'	
+
+If any warning message comes with $KCODE when starting the server or starting the console then
+
+replace
+
+$KCODE = 'UTF8'
+
+with
+
+$KCODE = 'UTF8' if RUBY_VERSION < '1.9'  in the file gdata.rb
+
+For the Hotmail importing issue, I replaced the hotmail.rb file from cardmagic contacts with deneuxa's contacts hotmail.rb file.
+
+And Hotmail Authentication error is the issue shown in https://github.com/cardmagic/contacts/issues/42
+
+Contacts::ConnectionError: Hotmail has changed its protocols, please upgrade this library first. If that does not work, report this error at http://rubyforge.org/forum/?group_id=2693
+
+When I tried to use the gem  deneuxa-contacts gem, so many gem conflict error came. Hope this updated contacts gem will help you better.
 
 == Usage
 
@@ -24,34 +77,13 @@ For a long time, the only way to get a list of contacts from your free online em
 	
 	Contacts.guess(login, password).contacts
 
-Notice there are three ways to use this library so that you can limit the use as much as you would like in your particular application. The Contacts.guess method will automatically concatenate all the address book contacts from each of the successful logins in the case that a username password works across multiple services.
+== References
+  
+   https://github.com/cardmagic/contacts
+   https://github.com/deneuxa/contacts
 
-== Captcha error
 
-If there are too many failed attempts with the gmail login info, Google will raise a captcha response. To integrate the captcha handling, pass in the token and response via:
 
-  Contacts::Gmail.new(login, password, :captcha_token => params[:captcha_token], :captcha_response => params[:captcha_response]).contacts
 
-== Examples
-
-See the examples/ directory.
-
-== Authors
-
-* Lucas Carlson from MOG (mailto:lucas@rufy.com) - http://mog.com
-
-== Contributors
-
-* Britt Selvitelle from Twitter (mailto:anotherbritt@gmail.com) - http://twitter.com
-* Tony Targonski from GigPark (mailto:tony@gigpark.com) - http://gigpark.com
-* Waheed Barghouthi from Watwet (mailto:waheed.barghouthi@gmail.com) - http://watwet.com
-* Glenn Sidney from Glenn Fu (mailto:glenn@glennfu.com) - http://glennfu.com
-* Brian McQuay from Onomojo (mailto:brian@onomojo.com) - http://onomojo.com
-* Adam Hunter (mailto:adamhunter@me.com) - http://adamhunter.me/
-* Glenn Ford (mailto:glenn@glennfu.com) - http://www.glennfu.com/
-* Leonardo Wong (mailto:mac@boy.name)
-* Rusty Burchfield
-* justintv
-
-This library is released under the terms of the BSD.
-
+    
+   
