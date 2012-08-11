@@ -12,7 +12,7 @@ Contacts is a universal interface to grab contact list information from various 
 In Gemfile
 
 gem "contacts", :git => "git://github.com/abhilashak/contacts.git"
-gem "gdata", :git => "git://github.com/dwaite/gdata.git"
+gem "gdata", :git => "git://github.com/abhilashak/gdata-1.git"
 
 == Background
 
