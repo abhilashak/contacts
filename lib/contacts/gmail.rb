@@ -1,4 +1,3 @@
-gem 'gdata', '1.1.1'
 require 'gdata'
 
 class Contacts
