@@ -16,7 +16,7 @@ gem "gdata", :git => "git://github.com/dwaite/gdata.git"
 
 == Background
 
-This gem is based on cardmagic contacts. https://github.com/cardmagic/contacts, and I patched some files in this gem and replaced the hotmail.rb file with deneuxa's contacts (https://github.com/deneuxa/contacts) to work the Hotmail importing.
+This gem is based on cardmagic contacts. https://github.com/cardmagic/contacts, and I patched some files in this gem and replaced the hotmail.rb file with deneuxa's contacts hotmail.rb file(https://github.com/deneuxa/contacts) to work the Hotmail importing.
 
 While I am using the gem contacts for importing the contacts from gmail, yahoo and hotmail, I encountered Three-Four Problems (Major One: Hotmail importing is not working), the first error I got is the following,
 
